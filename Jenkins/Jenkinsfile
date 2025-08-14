@@ -1,58 +1,30 @@
-// Define a Jenkins pipeline
 pipeline {
-    // Specify the agent to run the pipeline on, 'any' means any available agent
     agent any
 
-    // Define environment variables, in this case, the name of our virtual environment folder
     environment {
         VENV = "venv"
     }
 
-    // Define the stages of the pipeline
     stages {
-        // Stage to clone the Git repository
         stage('Clone GitHub Repo') {
             steps {
-                // Use the git step to clone the repository
-                // The URL and credentials should match your Jenkins job configuration
-                git branch: 'main', credentialsId: 'github-https', url: 'https://github.com/Koushikareddyy/Pipelining_pythonApp.git'
+                git branch: 'main', credentialsId: 'github-https', url: 'https://github.com/koushikareddyy/Pipelining_pythonApp.git'
             }
         }
 
-        // Stage to set up the Python virtual environment and install dependencies
         stage('Set Up Python Virtual Environment') {
             steps {
-                // Use a single 'sh' block to run all related commands in one shell session
-                // This ensures the virtual environment activation persists for subsequent commands
-                sh '''
-                    # Create the virtual environment
-                    python3 -m venv ${VENV}
-                    
-                    # Activate the virtual environment
-                    source ${VENV}/bin/activate
-                    
-                    # Upgrade pip within the virtual environment
-                    pip install --upgrade pip
-                    
-                    # Install dependencies from the requirements.txt file
-                    pip install -r requirements.txt
-                '''
+                bat '"//Library//Frameworks//Python.framework//Versions//3.13/bin//python3" -m venv venv'
+                bat '.\\venv\\Scripts\\python.exe -m pip install --upgrade pip'
+                bat '.\\venv\\Scripts\\pip install pandas numpy tenserflow flask'
             }
         }
 
-        // Stage to run the Flask application
         stage('Run Flask App') {
             steps {
-                // Again, use a single 'sh' block to activate the virtual environment and run the app
-                // This is crucial for the app to find its dependencies
-                sh '''
-                    # Activate the virtual environment
-                    source ${VENV}/bin/activate
-                    
-                    # Run the Flask application
-                    python3 app.py
-                '''
+                bat '.\\venv\\Scripts\\python app.py'
             }
         }
     }
 }
+
