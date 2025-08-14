@@ -1,4 +1,4 @@
- Define a Jenkins pipeline
+// Define a Jenkins pipeline
 pipeline {
     // Specify the agent to run the pipeline on, 'any' means any available agent
     agent any
@@ -8,7 +8,7 @@ pipeline {
         VENV = "venv"
     }
 
-    // Define the stages //of the pipeline
+    // Define the stages of the pipeline
     stages {
         // Stage to clone the Git repository
         stage('Clone GitHub Repo') {
